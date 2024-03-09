@@ -1,1 +1,45 @@
+Implementation:
+#HBase installation
+1. Go to the official site and download the most stable version of hbase
+2. Extract the zip file and place it in Hadoop home directory
+3. Open hbase-env.sh in hbase/conf and assign the JAVA_HOME path
 
+$ sudo nano hbase/conf/hbase-env.sh
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+4. Edit the .bashrc file
+$ nano ~/.basrhc
+export HBASE_HOME=/home/hbuser/hbase
+export PATH= $PATH:$HBASE_HOME/bin
+5. Read the edited bashrc file to the running memory
+
+$ source ~/.bashrc
+
+6. Add the following properties below the existing ones in the hbase/conf/hbase-site.xml file
+
+<property>
+<name>hbase.rootdir</name>
+<value>file:///home/hbuser/hbase</value>
+</property>
+<property>
+<name>hbase.zookeeper.property.dataDir</name>
+<value>/home/hbuser/hbase</value>
+</property>
+7. Run hbase by typing
+$ start-hbase.sh
+$ hbase shell
+
+# Storing and retrieval of data
+# Enter the following command in the hbase shell
+ Create ‘emp’, ‘pri_data’, ‘pro_data’
+ Put ‘emp’, ‘1’, ‘pri_data:name’, ‘Andy’
+ e =get_table
+ e.put ‘1’, ‘pri_data:age’, ‘22’
+ e.put ‘1’, ‘pro_data:post’, ‘asst. manager’
+ e.put ‘1’, ‘pro_data:salary’, ‘40k’
+ e.put ‘2’, ‘pri_data:name’, ‘Icarus’
+ e.put ‘2’, ‘pri_data:age’, ‘22’
+ e.put ‘2’, ‘pro_data:post’, ‘manager’
+
+ e.get ‘1’
+ e.get ‘2’
