@@ -1,1 +1,85 @@
+Installing pig
+Download
+https://dlcdn.apache.org/pig/pig-0.17.0/
+extract the files
+rename the extracted folder to pig and copy it to home of the Hadoop user
+Configure Apache Pig
+After installing Apache Pig, we have to configure it. To configure, we need to edit
+two files − bashrc and pig.properties.
+.bashrc file
+In the .bashrc file, set the following variables −
+
+• PIG_HOME folder to the Apache Pig’s installation folder,
+• PATH environment variable to the bin folder, and
+• PIG_CLASSPATH environment variable to the etc (configuration) folder
+
+of your Hadoop installations (the directory that contains the core-
+site.xml, hdfs-site.xml and mapred-site.xml files).
+
+export PIG_HOME=/home/hadoop/pig
+export PATH =$PATH:/home/hadoop/pig/bin
+export PIG_CLASSPATH=$HADOOP_HOME/conf
+pig.properties file
+In the conf folder of Pig, we have a file named pig.properties. In the pig.properties
+file, you can set various parameters as given below.
+pig -h properties
+The following properties are supported −
+Logging: verbose = true|false; default is false. This property is the same as -v
+switch brief=true|false; default is false. This property is the same
+as -b switch debug=OFF|ERROR|WARN|INFO|DEBUG; default is INFO.
+This property is the same as -d switch aggregate.warning = true|false; default is true.
+If true, prints count of warnings of each type rather than logging each warning.
+
+Performance tuning: pig.cachedbag.memusage=<mem fraction>; default is 0.2 (20% of all
+memory).
+Note that this memory is shared across all large bags used by the application.
+pig.skewedjoin.reduce.memusagea=<mem fraction>; default is 0.3 (30% of all memory).
+Specifies the fraction of heap available for the reducer to perform the join.
+
+pig.exec.nocombiner = true|false; default is false.
+Only disable combiner as a temporary workaround for problems.
+opt.multiquery = true|false; multiquery is on by default.
+Only disable multiquery as a temporary workaround for problems.
+opt.fetch=true|false; fetch is on by default.
+Scripts containing Filter, Foreach, Limit, Stream, and Union can be dumped without
+MR jobs.
+pig.tmpfilecompression = true|false; compression is off by default.
+Determines whether output of intermediate jobs is compressed.
+pig.tmpfilecompression.codec = lzo|gzip; default is gzip.
+Used in conjunction with pig.tmpfilecompression. Defines compression type.
+pig.noSplitCombination = true|false. Split combination is on by default.
+Determines if multiple small files are combined into a single map.
+pig.exec.mapPartAgg = true|false. Default is false.
+Determines if partial aggregation is done within map phase, before records are sent to
+combiner.
+pig.exec.mapPartAgg.minReduction=<min aggregation factor>. Default is 10.
+If the in-map partial aggregation does not reduce the output num records by this
+factor, it gets disabled.
+Miscellaneous: exectype = mapreduce|tez|local; default is mapreduce. This property is the
+same as -x switch
+pig.additional.jars.uris=<comma seperated list of jars>. Used in place of register
+command.
+udf.import.list=<comma seperated list of imports>. Used to avoid package names in
+UDF.
+stop.on.failure = true|false; default is false. Set to true to terminate on the first error.
+pig.datetime.default.tz=<UTC time offset>. e.g. +08:00. Default is the default timezone of
+the host.
+Determines the timezone used to handle datetime datatype and UDFs.
+Additionally, any Hadoop property can be specified.
+Verifying the Installation
+Verify the installation of Apache Pig by typing the version command. If the
+installation is successful, you will get the version of Apache Pig as shown below.
+$ pig –version
+Apache Pig version 0.15.0 (r1682971)
+compiled Jun 01 2015, 11:44:35
+
+run pig using following command in local mode without using hadoop
+pig -x local
+
+Write a Pig Script for solving counting problems.
+lines = LOAD '/home/hadoop/textfile.txt' AS (line:chararray);
+words = FOREACH lines GENERATE FLATTEN(TOKENIZE(line)) as word;
+grouped = GROUP words BY word;
+wordcount = FOREACH grouped GENERATE group, COUNT(words);
+DUMP wordcount;
 
