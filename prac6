@@ -1,1 +1,66 @@
+# Hive installation
+1. Download hive-2.3.9 from the given link
+https://downloads.apache.org/hive/
 
+2. Extract, rename and move the downloaded zip file to the appropriate folder
+3. Edit the .bashrc file
+$ nano ~/.bashrc
+export HIVE_HOME=/home/hadoop/hive
+export PATH=$PATH:$HIVE_HOME/bin
+
+4. Edit the core-site.xml and add the following properties within the existing Hadoop
+configuration
+$ nano $HADOOP_HOME/etc/Hadoop/core-site.xml
+<property>
+<name>hadoop.proxyuser.hadoop.groups</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.hadoop.hosts</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.server.hosts</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.server.groups</name>
+<value>*</value>
+</property>
+5. Make the hdfs directory
+$ hadoop fs –mkdir /tmp
+$ hadoop fs –mkdir /tmp/user
+$ hadoop fs –mkdir /tmp/user/hive
+
+$ hadoop fs –mkdir /tmp/user/hive/warehouse
+
+6. Give the permissions
+
+$ hadoop fs -chmod g+w /tmp
+$ hadoop fs -chmod g+w tmp/user/hive/warehouse
+
+7. Initialize the derby database
+
+$ schematool -dbType derby -initSchema
+
+8. Start the hiveserver2
+$ hiveserver2
+
+9. Open a new terminal and connect beeline with hive server
+$ beeline -n hadoop -u jdbc:hive2://localhost:10000
+
+# Create and store data
+1. Create a new database
+$ create database test;
+# verify with
+$ show databases;
+2. Create a new table
+
+$ create table test.emp (id int, name string);
+3. Insert a few tuples/records in the created table
+$ insert into test.emp VALUES(1, ‘Andy’);
+$ insert into test.emp VALUES(2, ‘Ramy’);
+$ insert into test.emp VALUES(3, ‘Youka’);
+
+4. Display the table data
+$ select * from test.emp
