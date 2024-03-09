@@ -1,1 +1,40 @@
+How to Download HBase tar file stable version
+Go to the link here to download HBase. It will open a webpage as shown below.
+link- 'https://www.apache.org/dyn/closer.lua/hbase/'
+How To Install HBase in Ubuntu with Standalone
+Mode
+Here is the step by step process of HBase standalone mode installation in
+Ubuntu:
+Step 1) Place the below command
+Place hbase-1.1.2-bin.tar.gz in /home/hduser
+Step 2) Unzip it by executing command $tar -xvf hbase-1.1.2-bin.tar.gz.
 
+It will unzip the contents, and it will create hbase-2.4.15 in the location
+/home/hduser
+Step 3) Open hbase-env.sh
+Open hbase-env.sh as below and mention JAVA_HOME path in the location.
+Step 4) Open the file and mention the path
+Open ~/.bashrc file and mention HBASE_HOME path as shown in below
+export HBASE_HOME=/home/hduser/hbase-2.4.15
+export PATH= $PATH:$HBASE_HOME/bin
+
+then
+source ~/.bashrc
+Step 5) Add properties in the file
+Open hbase-site.xml and place the following properties inside the file
+hduser@ubuntu$ sudo nano hbase-site.xml(code as below)
+<property>
+<name> hbase.rootdir</name>
+<value>file:///home/hduser/HBASE/hbase</value>
+</property>
+<property>
+<name>hbase.zookeeper.property.dataDir</name>
+<value>/home/hduser/HBASE/zookeeper</value>
+
+</property>
+Here we are placing two properties
+One for HBase root directory and
+Second one for data directory correspond to ZooKeeper.
+All HMaster and ZooKeeper activities point out to this hbase-site.xml.
+Step 6) Mention the IPs
+Open hosts file present in /etc. location and mention the IPs as shown in below.
