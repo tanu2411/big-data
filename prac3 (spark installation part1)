@@ -1,14 +1,14 @@
-#1 Downloading Scala
+step1:  Downloading Scala
 Download the latest version of Scala by visit the following link Download Scala. For this
 tutorial, we are using scala-2.11.6 version. After downloading, you will find the Scala tar file
 in the download folder.
-#2 Installing Scala
+step2: Installing Scala
 Follow the below given steps for installing Scala.
 Extract the Scala tar file
 Type the following command for extracting the Scala tar file. (Make sure to be in the folder
 were scala is downloaded)
 $ tar xvf scala-2.11.6.tgz
-#3 Move Scala software files
+step3: Move Scala software files
 Use the following commands for moving the Scala software files, to respective
 directory (/usr/local/scala).
 $ su –
@@ -23,7 +23,7 @@ Verifying Scala Installation
 After installation, it is better to verify it. Use the following command for verifying Scala
 installation.
 $scala -version
-Download Apache Spark. Find the latest release from the downloads page.
+Download Apache Spark. Find the latest release from the "https://spark.apache.org/downloads.html"
 
 Extract the Spark (make sure to be in the directory the spark is downloaded)
 $ sudo tar xvf spark-3.2.0-bin-hadoop3.2.tgz (Make sure to be in the folder where spark is
