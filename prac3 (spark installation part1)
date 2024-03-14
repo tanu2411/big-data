@@ -1,55 +1,31 @@
-step1:  Downloading Scala
-Download the latest version of Scala by visit the following link Download Scala. For this
-tutorial, we are using scala-2.11.6 version. After downloading, you will find the Scala tar file
-in the download folder.
-step2: Installing Scala
-Follow the below given steps for installing Scala.
-Extract the Scala tar file
-Type the following command for extracting the Scala tar file. (Make sure to be in the folder
-were scala is downloaded)
-$ tar xvf scala-2.11.6.tgz
-step3: Move Scala software files
-Use the following commands for moving the Scala software files, to respective
-directory (/usr/local/scala).
-$ su –
-Password:
-# cd /home/Hadoop/Downloads/
-# mv scala-2.11.6 /usr/local/scala
-# exit
-Set PATH for Scala
-Use the following command for setting PATH for Scala.
-$ export PATH = $PATH:/usr/local/scala/bin
-Verifying Scala Installation
-After installation, it is better to verify it. Use the following command for verifying Scala
-installation.
-$scala -version
-Download Apache Spark. Find the latest release from the "https://spark.apache.org/downloads.html"
-Extract the Spark (make sure to be in the directory the spark is downloaded)
-$ sudo tar xvf spark-3.2.0-bin-hadoop3.2.tgz (Make sure to be in the folder where spark is
-downloaded)
-Create an installation directory /opt/spark.
-$ sudo mkdir /opt/spark
-Move the extracted files to the installation directory.
-$ sudo mv spark-3.2.0-bin-hadoop3.2/* /opt/spark
-Change the permission of the directory.
-$ sudo chmod -R 777 /opt/spark
-Edit the bashrc configuration file to add Apache Spark installation directory to the system
-path.
-$ sudo nano ~/.bashrc
-Add the code below at the end of the file, save and exit the file:
+sudo -i
+sudo apt install scala
+scala -version
+mkdir /opt/spark
+cd /opt/spark
+# go to firefox and search for apache spark, then go to downloads and copy the link of apache spark
+wget 'copied link'
+sudo tar -xvf spark-"version"-bin-hadoop3.tgz
+sudo mv spark-'version'-bin-hadoop3/* /opt/spark
+sudo chmod -R 777 /opt/spark
+sudo nano ~/.bashrc
 export SPARK_HOME=/opt/spark
 export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-Save the changes to take effect.
-$ source ~/.bashrc
-Start the standalone master server.
-$ start-master.sh
-Find your server hostname from the dashboard by visiting http://Localhost:8080. Under
-the URL value. It might look like this:
-e.g. URL: spark://suraj-linux:7077
-Start the Apache Spark worker process. Change spark://ubuntu:7077 with your server
-hostname.
-$ start-worker.sh spark://suraj-linux:7077
-3. Access Apache Spark Web Interface
-Go to your browser address bar to access the web interface and type in http://localhost:8080
-to access the web install wizard. For example:
-http://localhost:8080
+ctrl+x > y > enter
+source ~/.bashrc
+start-master.sh
+spark-shell
+import org.apache.spark.graphx._
+case class User(name: String, age: Int)
+val users = List((1L, User("Alex", 26)), (2L, User("Bill", 42)), (3L, User("Carol", 18)), (4L, User("Dave", 16)), (5L, User("Eve", 45)), 
+(6L, User("Farell", 30)), (7L, User("Garry", 32)), (8L, User("Harry", 36)), (9L, User("Ivan", 28)), (10L, User("Jill", 48)))
+val usersRDD = sc.parallelize (users)
+val follows = List(Edge(1L, 2L, 1), Edge(2L, 3L, 1), Edge(3L, 1L, 1), Edge(3L, 4L, 1), Edge(3L, 5L, 1), Edge(4L,5L, 1), Edge(6L, 5L, 1), Edge(7L, 6L, 1), Edge(6L, 8L, 1), Edge(7L, 8L, 1),
+Edge(7L, 9L, 1), Edge(9L, 8L, 1), Edge(8L, 10L, 1), Edge(10L, 9L, 1), Edge(1L,1L, 1))
+val followsRDD = sc.parallelize(follows)
+val defaultUser = User("Icarus", 22)
+val socialgraph = Graph (usersRDD, followsRDD, defaultUser)
+socialgraph.numEdges
+socialgraph.numVertices
+socialgraph.inDegrees.collect
+socialgraph.outDegrees.collect
